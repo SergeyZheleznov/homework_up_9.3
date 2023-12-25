@@ -19,7 +19,7 @@ public:
 	
 	unique_ptr() noexcept
 	{
-		this->ptr = nullptr;
+		ptr = nullptr;
 	}
 
 	unique_ptr(T* ptr)
@@ -56,6 +56,8 @@ public:
 int main()
 {
 	setlocale(LC_ALL, "ru");
+	unique_ptr<int> object_uni1;
+	std::cout << *object_uni1 << std::endl;
 	unique_ptr<int> object_uni = new int(5);
 
 	std::cout << *object_uni << std::endl;
