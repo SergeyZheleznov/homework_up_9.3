@@ -16,27 +16,38 @@ template <typename T>
 class unique_ptr
 {
 public:
+	
+	unique_ptr() noexcept
+	{
+		this->ptr = nullptr;
+	}
+
 	unique_ptr(T* ptr)
 	{
 		this->ptr = ptr;
 
 		std::cout << "Вызван конструктор" << std::endl;
 	}
+	
 	~unique_ptr()
 	{
+		delete ptr;  // освободил память
 		std::cout << "Вызван деструктор" << std::endl;
 	}
+	
 	unique_ptr(const unique_ptr&) = delete;  // Здесь мы запретили конструктор копирования
 	unique_ptr& operator=(const unique_ptr&) = delete;  // Здесь мы запретили оператор присваивания
+	
 	T& operator*()
 	{
 		return *ptr;
 	};
-	auto release() // эта функция освобождает владение и возвращает указатель 
+	
+	T* release() // эта функция освобождает владение и возвращает указатель 
 	{
-		delete ptr;
-
-		return ptr;
+		T* tmp_ptr = ptr;  
+		ptr = nullptr;
+		return tmp_ptr;
 	}
 public:
 	T* ptr;
@@ -44,7 +55,6 @@ public:
 
 int main()
 {
-	
 	setlocale(LC_ALL, "ru");
 	unique_ptr<int> object_uni = new int(5);
 
